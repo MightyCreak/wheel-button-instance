@@ -1,0 +1,8 @@
+{
+  "shell-version": ["3.2"],
+  "uuid": "NewInstanceCurrentWorkspace@chris.chrisirwin.ca",
+  "name": "New Instance on Current Workspace",
+  "description": "Causes new instances of applications to be started on the current workspace, instead of a new, blank one.",
+  "version": 1,
+  "url": "https://gitorious.org/chrisirwin-utils/newinstancecurrentworkspace"
+}
