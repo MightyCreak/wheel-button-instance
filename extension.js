@@ -20,7 +20,6 @@
  */
 const Main = imports.ui.main;
 const AppDisplay = imports.ui.appDisplay;
-const Shell = imports.gi.Shell;
 const Clutter = imports.gi.Clutter;
 
 
