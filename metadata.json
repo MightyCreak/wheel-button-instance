@@ -1,5 +1,5 @@
 {
-  "shell-version": ["3.2"],
+  "shell-version": ["3.2", "3.4"],
   "uuid": "NewInstanceCurrentWorkspace@chris.chrisirwin.ca",
   "name": "New Instance on Current Workspace",
   "description": "Causes applications to be started on the current workspace, instead of a new, blank one when launching a new instance via middle-click.",
