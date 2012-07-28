@@ -1,22 +1,27 @@
 /**
  * Desc: this extension "fixes" the dash's default behavior when you 
- *       middle-click on an icon. The defualt is to launch the app on a new
+ *       middle-click on an icon. The default is to launch the app on a new
  *       workspace. This extension changes that to launching on the
  *       current workspace.
  * 
- * Author: Gabriel Rossetti & Chris Irwin
- * Date: 2011-12-08, 2012-01-03
+ * Author: Gabriel Rossetti & Chris Irwin & Romain Failliot
+ * Date: 2012-07-28
  * Version: 1.0
  *
  * Gabriel Rossetti wrote the original patch to change left-click behaviour.
  * Chris Irwin modified it to change middle-click behaviour instead.
+ * Romain Failliot modified it to make it compatible with GNOME Shell 3.4.
  *
  * Original can be found here:
  *  - https://github.com/grossetti/Gnome-Shell-Extensions
  *  - https://extensions.gnome.org/extension/67/dash-click-fix/
  *
- *  This version can be found here:
+ * Chris Irwin's version can be found here:
  *  - https://gitorious.org/chrisirwin-utils/newinstancecurrentworkspace
+ *  - https://extensions.gnome.org/extension/127/new-instance-on-current-workspace/
+ *
+ * This version can be found here:
+ *  - https://gitorious.org/~herrbean/chrisirwin-utils/herrbeans-newinstancecurrentworkspace
  */
 const Main = imports.ui.main;
 const AppDisplay = imports.ui.appDisplay;
