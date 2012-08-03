@@ -24,10 +24,11 @@
  * This version can be found here:
  *  - https://gitorious.org/~herrbean/chrisirwin-utils/herrbeans-newinstancecurrentworkspace
  */
+
 const Main = imports.ui.main;
 const AppDisplay = imports.ui.appDisplay;
 const Clutter = imports.gi.Clutter;
-
+const Shell = imports.gi.Shell;
 
 var _originalClicked = null;
 var _originalActivate = null;
@@ -41,7 +42,6 @@ var _originalActivate = null;
 function _onClicked(actor, button) {
     this._removeMenuTimeout();
 
-    global.log('[DEBUG] onClicked');
     if (button == 1) {
         this._onActivate(Clutter.get_current_event());
     }
@@ -58,13 +58,12 @@ function _onActivate(event) {
     this.emit('launching');
     let modifiers = event.get_state();
 
-    global.log('[DEBUG] onActivate');
     if (this._onActivateOverride) {
         this._onActivateOverride(event);
     } else {
-        global.log('[DEBUG] normal activation');
-        if (modifiers & Clutter.ModifierType.CONTROL_MASK
-            && this.app.state == Shell.AppState.RUNNING) {
+        if (modifiers & Clutter.ModifierType.CONTROL_MASK) {
+            let launchWorkspace = global.screen.get_workspace_by_index(global.screen.n_workspaces - 1);
+            launchWorkspace.activate(global.get_current_time());
             this.app.open_new_window(-1);
         } else {
             this.app.activate();
