@@ -10,7 +10,8 @@
  *
  * Gabriel Rossetti wrote the original patch to change left-click behaviour.
  * Chris Irwin modified it to change middle-click behaviour instead.
- * Romain Failliot modified it to make it compatible with GNOME Shell 3.4.
+ * Romain Failliot modified it to make it compatible with GNOME Shell 3.4,
+ * and inverted the Ctrl-click/middle-click behavior.
  *
  * Original can be found here:
  *  - https://github.com/grossetti/Gnome-Shell-Extensions
@@ -28,7 +29,8 @@ const AppDisplay = imports.ui.appDisplay;
 const Clutter = imports.gi.Clutter;
 
 
-var _original = null;
+var _originalClicked = null;
+var _originalActivate = null;
 
 /**
  * The new version of the function, this always lanches a new version of 
@@ -39,10 +41,12 @@ var _original = null;
 function _onClicked(actor, button) {
     this._removeMenuTimeout();
 
+    global.log('[DEBUG] onClicked');
     if (button == 1) {
         this._onActivate(Clutter.get_current_event());
-    } else if (button == 2) {
-        // Launch on current workspace
+    }
+    else if (button == 2) {
+        // Launch on current workspace.
         this.emit('launching');
         this.app.open_new_window(-1);
         Main.overview.hide();
@@ -50,11 +54,31 @@ function _onClicked(actor, button) {
     return false;
 }
 
+function _onActivate(event) {
+    this.emit('launching');
+    let modifiers = event.get_state();
+
+    global.log('[DEBUG] onActivate');
+    if (this._onActivateOverride) {
+        this._onActivateOverride(event);
+    } else {
+        global.log('[DEBUG] normal activation');
+        if (modifiers & Clutter.ModifierType.CONTROL_MASK
+            && this.app.state == Shell.AppState.RUNNING) {
+            this.app.open_new_window(-1);
+        } else {
+            this.app.activate();
+        }
+    }
+    Main.overview.hide();
+}
+
 /**
  * Initialize the extension
  */
 function init() {
-  _original = AppDisplay.AppWellIcon.prototype._onClicked;
+  _originalClicked = AppDisplay.AppWellIcon.prototype._onClicked;
+  _originalActivate = AppDisplay.AppWellIcon.prototype._onActivate;
 }
 
 /**
@@ -62,12 +86,13 @@ function init() {
  */
 function enable() {
   AppDisplay.AppWellIcon.prototype._onClicked = _onClicked;
+  AppDisplay.AppWellIcon.prototype._onActivate = _onActivate;
 }
 
 /**
  * Disable the extension
  */
 function disable() {
-  
-  AppDisplay.AppWellIcon.prototype._onClicked = _original;
+  AppDisplay.AppWellIcon.prototype._onClicked = _originalClicked;
+  AppDisplay.AppWellIcon.prototype._onActivate = _originalActivate;
 }
