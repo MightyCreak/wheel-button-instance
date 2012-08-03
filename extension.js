@@ -61,7 +61,9 @@ function _onActivate(event) {
     if (this._onActivateOverride) {
         this._onActivateOverride(event);
     } else {
-        if (modifiers & Clutter.ModifierType.CONTROL_MASK) {
+        global.log(this.app.state);
+        if (modifiers & Clutter.ModifierType.CONTROL_MASK
+            && this.app.state == Shell.AppState.RUNNING) {
             let launchWorkspace = global.screen.get_workspace_by_index(global.screen.n_workspaces - 1);
             launchWorkspace.activate(global.get_current_time());
             this.app.open_new_window(-1);
