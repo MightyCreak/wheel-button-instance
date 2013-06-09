@@ -1,8 +1,8 @@
 {
-  "shell-version": ["3.4"],
+  "shell-version": ["3.4", "3.6", "3.8"],
   "uuid": "NewInstanceWithWheelButton@creak.foolstep.com",
   "name": "Wheel Button Instance",
   "description": "The wheel button creates a new instance on the current workspace while Ctrl-Click creates a new instance on a new workspace. This extension inverts the GNOME behavior.",
-  "version": 3,
+  "version": 4,
   "url": "https://gitorious.org/~herrbean/chrisirwin-utils/herrbeans-newinstancecurrentworkspace"
 }

@@ -4,31 +4,43 @@
  *       workspace. This extension changes that to launching on the
  *       current workspace.
  * 
- * Author: Gabriel Rossetti & Chris Irwin & Romain Failliot
- * Date: 2012-07-28
- * Version: 1.0
+ * Authors: Gabriel Rossetti
+ *          Chris Irwin
+ *          Romain Failliot
+ *          Johannes Wellhöfer
+ * Date: 2013-06-09
+ * Version: 2.0
  *
- * Gabriel Rossetti wrote the original patch to change left-click behaviour.
- * Chris Irwin modified it to change middle-click behaviour instead.
- * Romain Failliot modified it to make it compatible with GNOME Shell 3.4,
- * and inverted the Ctrl-click/middle-click behavior.
- *
- * Original can be found here:
- *  - https://github.com/grossetti/Gnome-Shell-Extensions
- *  - https://extensions.gnome.org/extension/67/dash-click-fix/
- *
- * Chris Irwin's version can be found here:
- *  - https://gitorious.org/chrisirwin-utils/newinstancecurrentworkspace
- *  - https://extensions.gnome.org/extension/127/new-instance-on-current-workspace/
- *
- * This version can be found here:
+ * Source code can be found here:
  *  - https://gitorious.org/~herrbean/chrisirwin-utils/herrbeans-newinstancecurrentworkspace
+ *
+ * v2.0:
+ *   Johannes Wellhöfer modified it to make it compatible with GNOME Shell 3.6
+ *   and 3.8.
+ *
+ * v1.0:
+ *   Romain Failliot modified it to make it compatible with GNOME Shell 3.4,
+ *   and inverted the Ctrl-click/middle-click behavior.
+ *
+ * v0.1:
+ *   Gabriel Rossetti wrote the original patch to change left-click behaviour.
+ *   Chris Irwin modified it to change middle-click behaviour instead.
  */
 
 const Main = imports.ui.main;
 const AppDisplay = imports.ui.appDisplay;
 const Clutter = imports.gi.Clutter;
 const Shell = imports.gi.Shell;
+
+/**
+ * Small hack to be compatible between versions 3.4 and 3.8.
+ */
+const AppIcon = function(){
+  if( AppDisplay.AppWellIcon != undefined)
+    return AppDisplay.AppWellIcon;
+  else
+    return AppDisplay.AppIcon;
+}();
 
 var _originalClicked = null;
 var _originalActivate = null;
@@ -42,6 +54,7 @@ var _originalActivate = null;
 function _onClicked(actor, button) {
     this._removeMenuTimeout();
 
+    // global.log("[WBI] _onClicked: button: " + button);
     if (button == 1) {
         this._onActivate(Clutter.get_current_event());
     }
@@ -61,7 +74,7 @@ function _onActivate(event) {
     if (this._onActivateOverride) {
         this._onActivateOverride(event);
     } else {
-        global.log(this.app.state);
+        //global.log("[WBI] _onActivate: state: " + this.app.state);
         if (modifiers & Clutter.ModifierType.CONTROL_MASK
             && this.app.state == Shell.AppState.RUNNING) {
             let launchWorkspace = global.screen.get_workspace_by_index(global.screen.n_workspaces - 1);
@@ -78,22 +91,22 @@ function _onActivate(event) {
  * Initialize the extension
  */
 function init() {
-  _originalClicked = AppDisplay.AppWellIcon.prototype._onClicked;
-  _originalActivate = AppDisplay.AppWellIcon.prototype._onActivate;
+  _originalClicked = AppIcon.prototype._onClicked;
+  _originalActivate = AppIcon.prototype._onActivate;
 }
 
 /**
  * Enable the extension
  */
 function enable() {
-  AppDisplay.AppWellIcon.prototype._onClicked = _onClicked;
-  AppDisplay.AppWellIcon.prototype._onActivate = _onActivate;
+  AppIcon.prototype._onClicked = _onClicked;
+  AppIcon.prototype._onActivate = _onActivate;
 }
 
 /**
  * Disable the extension
  */
 function disable() {
-  AppDisplay.AppWellIcon.prototype._onClicked = _originalClicked;
-  AppDisplay.AppWellIcon.prototype._onActivate = _originalActivate;
+  AppIcon.prototype._onClicked = _originalClicked;
+  AppIcon.prototype._onActivate = _originalActivate;
 }
