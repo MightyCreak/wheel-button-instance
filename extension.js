@@ -9,22 +9,24 @@
  *          Romain Failliot
  *          Johannes Wellhöfer
  * Date: 2013-06-09
- * Version: 2.0
+ * Version: 2.1
  *
  * Source code can be found here:
  *  - https://gitorious.org/~herrbean/chrisirwin-utils/herrbeans-newinstancecurrentworkspace
  *
+ * v2.1:
+ *   Romain Failliot: compatible with 3.10.
+
  * v2.0:
- *   Johannes Wellhöfer modified it to make it compatible with GNOME Shell 3.6
- *   and 3.8.
+ *   Johannes Wellhöfer: compatible with GNOME Shell 3.6 and 3.8.
  *
  * v1.0:
- *   Romain Failliot modified it to make it compatible with GNOME Shell 3.4,
- *   and inverted the Ctrl-click/middle-click behavior.
+ *   Romain Failliot: compatible with GNOME Shell 3.4, and inverted the
+ *   Ctrl-click/middle-click behavior.
  *
  * v0.1:
- *   Gabriel Rossetti wrote the original patch to change left-click behaviour.
- *   Chris Irwin modified it to change middle-click behaviour instead.
+ *   Gabriel Rossetti: original patch to change left-click behaviour.
+ *   Chris Irwin: change middle-click behaviour instead.
  */
 
 const Main = imports.ui.main;
